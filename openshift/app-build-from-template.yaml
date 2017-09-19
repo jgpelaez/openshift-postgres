@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: postgresql-build-template
+metadata:
+  name: postgresql
+objects: 
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: ${APP_NAME}-${SERVICE_NAME}
+  spec:
+    triggers:
+      - type: ConfigChange
+    runPolicy: Serial
+    source:
+      type: Binary
+    strategy:
+      dockerStrategy:
+        dockerfilePath: Dockerfile
+        from:
+          kind: "ImageStreamTag"
+          namespace: '${FROM_NAMESPACE}'
+          name: "${FROM_IMAGE}"         
+    output:
+      to:
+        kind: ImageStreamTag        
+        name: '${APP_NAME}-${SERVICE_NAME}:${APP_VERSION}'
+parameters:
+- name: SERVICE_NAME
+  value: postgresql  
+- name: APP_NAME
+  required: true
+- name: APP_VERSION
+  value: "9.4"
+- name: FROM_IMAGE
+  value: 'postgresql:9.4'
+- name: FROM_NAMESPACE
+  value: openshift

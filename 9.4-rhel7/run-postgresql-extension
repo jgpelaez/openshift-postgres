@@ -1,0 +1,19 @@
+if [ "$EXPORT_LOG" = true ] ; then
+	mkdir -p ${PG_LOG_PATH}
+	touch ${LOG_MON}
+	touch ${LOG_TUE}
+	touch ${LOG_WED}
+	touch ${LOG_THU}
+	touch ${LOG_FRI}
+	touch ${LOG_SAT}
+	touch ${LOG_SUN}
+	
+	ln -sf /proc/1/fd/1 ${LOG_MON}
+	ln -sf /proc/1/fd/1 ${LOG_TUE}
+	ln -sf /proc/1/fd/1 ${LOG_WED}
+	ln -sf /proc/1/fd/1 ${LOG_THU}
+	ln -sf /proc/1/fd/1 ${LOG_FRI}
+	ln -sf /proc/1/fd/1 ${LOG_SAT}
+	ln -sf /proc/1/fd/1 ${LOG_SUN}
+fi
+

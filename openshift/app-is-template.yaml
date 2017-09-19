@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: postgresql-is-template
+metadata:
+  name: postgresql-is
+objects: 
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: ${APP_NAME}-${SERVICE_NAME}
+  spec: {}
+    
+parameters:
+- name: SERVICE_NAME
+  value: postgresql  
+- name: APP_NAME
+  required: true
+  

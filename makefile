@@ -22,6 +22,18 @@ start-build-postgresql:  ## start-build-postgresql
 		--from-dir=./9.4-rhel7 \
 		--wait=true \
 		-n ${OS_PROJECT}
+		
+docker-build-postgresql:  ## start-build-postgresql
+	docker build ./9.4-rhel7 -t postgres-9.4-rhel7 
+	
+docker-run-postgresql:  ## start-build-postgresql
+	docker run --rm -p 5432:5432 \
+		--privileged=true \
+		-e POSTGRESQL_USER=user \
+		-e POSTGRESQL_PASSWORD=pwd \
+		-e POSTGRESQL_DATABASE=db \
+		-v /home/juancarlos/git/openshift-postgres/data:/var/lib/pgsql/data \
+		postgres-9.4-rhel7 
 	
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

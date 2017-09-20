@@ -1,19 +1,29 @@
 if [ "$EXPORT_LOG" = true ] ; then
-	mkdir -p ${PG_LOG_PATH}
-	touch ${LOG_MON}
-	touch ${LOG_TUE}
-	touch ${LOG_WED}
-	touch ${LOG_THU}
-	touch ${LOG_FRI}
-	touch ${LOG_SAT}
-	touch ${LOG_SUN}
+	echo "Exporting log files"
+	touch /tmp/postgres.log
+	ln -sf /proc/1/fd/1 /tmp/postgres.log
+	tail -f /usr/bin/run-postgresql >> /tmp/postgres.log &
 	
-	ln -sf /proc/1/fd/1 ${LOG_MON}
-	ln -sf /proc/1/fd/1 ${LOG_TUE}
-	ln -sf /proc/1/fd/1 ${LOG_WED}
-	ln -sf /proc/1/fd/1 ${LOG_THU}
-	ln -sf /proc/1/fd/1 ${LOG_FRI}
-	ln -sf /proc/1/fd/1 ${LOG_SAT}
-	ln -sf /proc/1/fd/1 ${LOG_SUN}
+	
+fi
+
+
+if [ "$EXPORT_LOG" = true ] ; then
+	if [ -d "/var/lib/pgsql/data/userdata" ]; then
+		touch ${LOG_MON}
+		touch ${LOG_TUE}
+		touch ${LOG_WED}
+		touch ${LOG_THU}
+		touch ${LOG_FRI}
+		touch ${LOG_SAT}
+		touch ${LOG_SUN}
+		tail -f ${LOG_MON} >> /tmp/postgres.log &
+		tail -f ${LOG_TUE} >> /tmp/postgres.log &
+		tail -f ${LOG_WED} >> /tmp/postgres.log &
+		tail -f ${LOG_THU} >> /tmp/postgres.log &
+		tail -f ${LOG_FRI} >> /tmp/postgres.log &
+		tail -f ${LOG_SAT} >> /tmp/postgres.log &
+		tail -f ${LOG_SUN} >> /tmp/postgres.log &
+	fi
 fi
 

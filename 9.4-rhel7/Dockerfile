@@ -13,9 +13,10 @@ ENV LOG_SUN=${PG_LOG_PATH}/${LOG_PREFIX}-Sun.${LOG_EXT}
 
 ENV EXPORT_LOG=true
 USER root
-COPY run-postgresql-extension /usr/bin/run-postgresql-extension
+COPY run-postgresql-extension /usr/bin/
 
 RUN \
 	sed -i '1 r /usr/bin/run-postgresql-extension' /usr/bin/run-postgresql
+
 
 USER 26
